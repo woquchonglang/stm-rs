@@ -1,0 +1,22 @@
+[package]
+name = "stm-rs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cortex-m-rt = "0.7.5"
+defmt = "1.0.1"
+panic-halt = "1.0.0"
+rtt-target = "0.6.1"
+stm32f4xx-hal = {version="0.23.0",features=["stm32f407"] }
+
+[profile.dev]
+debug = true
+lto = true
+panic = "abort"
+
+[profile.release]
+debug = true
+lto = true
+opt-level = "s"
+panic = "abort"
