@@ -13,10 +13,11 @@ stm32f4xx-hal = {version="0.23.0",features=["stm32f407"] }
 [profile.dev]
 debug = true
 lto = true
+opt-level = 0
 panic = "abort"
 
 [profile.release]
 debug = true
 lto = true
-opt-level = "s"
+opt-level = 3
 panic = "abort"
