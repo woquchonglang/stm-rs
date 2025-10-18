@@ -4,11 +4,38 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-cortex-m-rt = "0.7.5"
+
+embassy-executor = { version = "0.9.1", features = ["arch-cortex-m", "executor-thread", "executor-interrupt", "defmt"] }
+embassy-futures = "0.1.2"
+embassy-stm32 = {version = "0.4.0", features = ["defmt", "stm32f407ig", "unstable-pac", "memory-x", "time-driver-tim4", "exti", "chrono"] }
+embassy-sync = {version = "0.7.2",features = ["defmt"]}
+embassy-time = { version = "0.5.0", features = ["defmt", "defmt-timestamp-uptime", "tick-hz-32_768"] }
+
 defmt = "1.0.1"
-panic-halt = "1.0.0"
-rtt-target = "0.6.1"
-stm32f4xx-hal = {version="0.23.0",features=["stm32f407"] }
+defmt-rtt = "1.1.0"
+
+cortex-m = { version = "0.7.6", features = ["inline-asm", "critical-section-single-core"] }
+cortex-m-rt = "0.7.5"
+embedded-hal = "0.2.6"
+embedded-hal-bus = { version = "0.2", features = ["async"] }
+embedded-io = { version = "0.6.0" }
+embedded-io-async = { version = "0.6.1" }
+panic-probe = { version = "1.0.0", features = ["print-defmt"] }
+futures-util = { version = "0.3.30", default-features = false }
+heapless = { version = "0.8", default-features = false }
+critical-section = "1.1"
+nb = "1.0.0"
+embedded-storage = "0.3.1"
+micromath = "2.0.0"
+usbd-hid = "0.8.1"
+static_cell = "2"
+chrono = { version = "^0.4", default-features = false}
+
+
+[package.metadata.embassy]
+build = [
+  { target = "thumbv7em-none-eabihf" }
+]
 
 [profile.dev]
 debug = true

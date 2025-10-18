@@ -1,37 +1,26 @@
-//! Blinks an LED
-
-#![deny(unsafe_code)]
-#![deny(warnings)]
-#![no_main]
 #![no_std]
+#![no_main]
 
-use panic_halt as _;
+use defmt::*;
+use embassy_executor::Spawner;
+use embassy_stm32::gpio::{Level, Output, Speed};
+use embassy_time::Timer;
+use {defmt_rtt as _, panic_probe as _};
 
-use stm32f4xx_hal as hal;
+#[embassy_executor::main]
+async fn main(_spawner: Spawner) {
+    let p = embassy_stm32::init(Default::default());
+    info!("Hello World!");
 
-use crate::hal::{pac, prelude::*};
-use cortex_m_rt::entry;
-use rtt_target::{rprintln, rtt_init_print};
-
-#[entry]
-fn main() -> ! {
-    rtt_init_print!();
-
-    let p = pac::Peripherals::take().unwrap();
-
-    let mut rcc = p.RCC.constrain();
-
-    let gpioh = p.GPIOH.split(&mut rcc);
-    let mut led = gpioh.ph10.into_push_pull_output();
+    let mut led = Output::new(p.PB7, Level::High, Speed::Low);
 
     loop {
-        for _ in 0..10_000 {
-            led.set_high();
-            rprintln!("light on!");
-        }
-        for _ in 0..10_000 {
-            led.set_low();
-            rprintln!("light off!");
-        }
+        info!("high");
+        led.set_high();
+        Timer::after_millis(300).await;
+
+        info!("low");
+        led.set_low();
+        Timer::after_millis(300).await;
     }
 }
